@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Owner Dashboard Toko ABC</title>
+<style>
+body{font-family:Arial;background:#f4f4f4;margin:0;padding:20px}
+.card{background:white;padding:15px;margin-bottom:15px;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+h1{margin-bottom:5px}
+table{width:100%;border-collapse:collapse;background:white}
+th,td{border:1px solid #ccc;padding:8px;text-align:left}
+th{background:#222;color:white}
+.big{font-size:26px;font-weight:bold}
+</style>
+</head>
+<body>
+
+<h1>Dashboard Owner</h1>
+<p>TOKO ABC</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>Total Omzet</h3>
+    <div class="big" id="totalOmzet">Rp 0</div>
+  </div>
+
+  <div class="card">
+    <h3>Jumlah Transaksi</h3>
+    <div class="big" id="jumlahTransaksi">0</div>
+  </div>
+
+  <div class="card">
+    <h3>Jumlah Barang</h3>
+    <div class="big" id="jumlahBarang">0</div>
+  </div>
+
+  <div class="card">
+    <h3>Barang Stok Rendah</h3>
+    <div class="big" id="stokRendah">0</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Data Barang</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Kode</th>
+        <th>Nama</th>
+        <th>Stok</th>
+        <th>Harga</th>
+      </tr>
+    </thead>
+    <tbody id="tabelBarang"></tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>History Transaksi</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>No Kwitansi</th>
+        <th>Tanggal</th>
+        <th>Pembeli</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="tabelTransaksi"></tbody>
+  </table>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyCQhntg-vYf2dI1nlXy0ZKA1Z7G21aYqtw",
+  authDomain: "toko-abc.firebaseapp.com",
+  projectId: "toko-abc",
+  storageBucket: "toko-abc.firebasestorage.app",
+  messagingSenderId: "295099783757",
+  appId: "1:295099783757:web:b258220764572fadcc1a04"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+function formatRupiah(angka){
+  return "Rp " + Number(angka || 0).toLocaleString("id-ID");
+}
+
+db.collection("barang").onSnapshot(snapshot => {
+  let tabel = document.getElementById("tabelBarang");
+  let jumlahBarang = 0;
+  let stokRendah = 0;
+
+  tabel.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    let b = doc.data();
+    jumlahBarang++;
+
+    if(Number(b.stok) <= 5){
+      stokRendah++;
+    }
+
+    tabel.innerHTML += `
+      <tr>
+        <td>${b.kode}</td>
+        <td>${b.nama}</td>
+        <td>${b.stok}</td>
+        <td>${formatRupiah(b.harga)}</td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("jumlahBarang").innerText = jumlahBarang;
+  document.getElementById("stokRendah").innerText = stokRendah;
+});
+
+db.collection("transaksi").onSnapshot(snapshot => {
+  let tabel = document.getElementById("tabelTransaksi");
+  let totalOmzet = 0;
+  let jumlahTransaksi = 0;
+
+  tabel.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    let t = doc.data();
+    totalOmzet += Number(t.total || 0);
+    jumlahTransaksi++;
+
+    tabel.innerHTML += `
+      <tr>
+        <td>${t.nomor}</td>
+        <td>${t.tanggal}</td>
+        <td>${t.pembeli}</td>
+        <td>${formatRupiah(t.total)}</td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("totalOmzet").innerText = formatRupiah(totalOmzet);
+  document.getElementById("jumlahTransaksi").innerText = jumlahTransaksi;
+});
+</script>
+
+</body>
+</html>
