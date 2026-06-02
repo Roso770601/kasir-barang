@@ -1,3 +1,295 @@
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Owner Dashboard Toko ABC</title><style>body{font-family:Arial;background:#f4f4f4;margin:0;padding:20px}.card{background:white;padding:15px;margin-bottom:15px;border-radius:10px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}h1{margin-bottom:5px}table{width:100%;border-collapse:collapse;background:white}th,td{border:1px solid #ccc;padding:8px;text-align:left}th{background:#222;color:white}.big{font-size:26px;font-weight:bold}button{padding:10px;margin:5px;cursor:pointer;border:0;border-radius:6px;background:#222;color:white}.warning{background:#fff3cd;border-left:5px solid #e67e22;padding:10px;margin:8px 0;border-radius:8px}</style></head><body>
-<h1>Dashboard Owner</h1><p>TOKO ABC</p><div class="grid"><div class="card"><h3>Omzet Hari Ini</h3><div class="big" id="omzetHariIni">Rp 0</div></div><div class="card"><h3>Total Omzet</h3><div class="big" id="totalOmzet">Rp 0</div></div><div class="card"><h3>Jumlah Transaksi</h3><div class="big" id="jumlahTransaksi">0</div></div><div class="card"><h3>Jumlah Barang</h3><div class="big" id="jumlahBarang">0</div></div><div class="card"><h3>Barang Hampir Habis</h3><div class="big" id="stokRendah">0</div></div></div><div class="card"><h2>⚠ Barang Hampir Habis</h2><div id="listStokRendah"></div></div><div class="card"><h2>Data Barang</h2><button onclick="exportBarangExcel()">Export Barang ke Excel</button><table><thead><tr><th>Kode</th><th>Nama</th><th>Stok</th><th>Harga</th></tr></thead><tbody id="tabelBarang"></tbody></table></div><div class="card"><h2>History Transaksi</h2><button onclick="exportTransaksiExcel()">Export Transaksi ke Excel</button><table><thead><tr><th>No Kwitansi</th><th>Tanggal</th><th>Pembeli</th><th>Total</th></tr></thead><tbody id="tabelTransaksi"></tbody></table></div>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script><script>const firebaseConfig={apiKey:"AIzaSyCQhntg-vYf2dI1nlXy0ZKA1Z7G21aYqtw",authDomain:"toko-abc.firebaseapp.com",projectId:"toko-abc",storageBucket:"toko-abc.firebasestorage.app",messagingSenderId:"295099783757",appId:"1:295099783757:web:b258220764572fadcc1a04"};firebase.initializeApp(firebaseConfig);const db=firebase.firestore();let dataBarang=[],dataTransaksi=[];function formatRupiah(a){return"Rp "+Number(a||0).toLocaleString("id-ID")}function hariIni(){return new Date().toLocaleDateString("id-ID")}function cocokHariIni(t){if(!t)return false;if(String(t).includes("T"))return new Date(t).toLocaleDateString("id-ID")===hariIni();return String(t).startsWith(hariIni())}db.collection("barang").onSnapshot(snap=>{let tabel=tabelBarang,list=listStokRendah;dataBarang=[];tabel.innerHTML="";list.innerHTML="";let rendah=0;snap.forEach(doc=>{let b=doc.data();dataBarang.push(b);if(Number(b.stok)<=5){rendah++;list.innerHTML+=`<div class="warning">⚠ ${b.nama} tinggal <b>${b.stok}</b></div>`}tabel.innerHTML+=`<tr><td>${b.kode}</td><td>${b.nama}</td><td>${b.stok}</td><td>${formatRupiah(b.harga)}</td></tr>`});if(rendah===0)list.innerHTML="<p>Aman, tidak ada barang hampir habis.</p>";jumlahBarang.innerText=dataBarang.length;stokRendah.innerText=rendah});db.collection("transaksi").onSnapshot(snap=>{let total=0,hari=0;dataTransaksi=[];tabelTransaksi.innerHTML="";snap.forEach(doc=>{let t=doc.data();dataTransaksi.push(t);total+=Number(t.total||0);if(cocokHariIni(t.tanggalISO||t.tanggal))hari+=Number(t.total||0);tabelTransaksi.innerHTML+=`<tr><td>${t.nomor}</td><td>${t.tanggal}</td><td>${t.pembeli}</td><td>${formatRupiah(t.total)}</td></tr>`});totalOmzet.innerText=formatRupiah(total);omzetHariIni.innerText=formatRupiah(hari);jumlahTransaksi.innerText=dataTransaksi.length});function downloadCSV(namaFile,rows){let csv=rows.map(r=>r.map(v=>`"${String(v??"").replaceAll('"','""')}"`).join(",")).join("\n");let blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=namaFile;a.click()}function exportBarangExcel(){let rows=[["Kode","Nama","Stok","Harga"]];dataBarang.forEach(b=>rows.push([b.kode,b.nama,b.stok,b.harga]));downloadCSV("owner-data-barang.csv",rows)}function exportTransaksiExcel(){let rows=[["No Kwitansi","Tanggal","Pembeli","Total"]];dataTransaksi.forEach(t=>rows.push([t.nomor,t.tanggal,t.pembeli,t.total]));downloadCSV("owner-transaksi.csv",rows)}</script></body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Owner Dashboard Toko ABC</title>
+
+<style>
+body{
+  font-family:Arial;
+  background:#f4f4f4;
+  margin:0;
+  padding:20px;
+}
+.card{
+  background:white;
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:10px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+}
+h1{margin-bottom:5px}
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+}
+th,td{
+  border:1px solid #ccc;
+  padding:8px;
+  text-align:left;
+}
+th{
+  background:#222;
+  color:white;
+}
+.big{
+  font-size:26px;
+  font-weight:bold;
+}
+button{
+  padding:10px;
+  margin:5px;
+  cursor:pointer;
+  border:0;
+  border-radius:6px;
+  background:#222;
+  color:white;
+}
+input{
+  padding:10px;
+  margin:5px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+.warning{
+  background:#fff3cd;
+  border-left:5px solid #e67e22;
+  padding:10px;
+  margin:8px 0;
+  border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Dashboard Owner</h1>
+<p>TOKO ABC</p>
+
+<div class="grid">
+  <div class="card">
+    <h3>Omzet Hari Ini</h3>
+    <div class="big" id="omzetHariIni">Rp 0</div>
+  </div>
+
+  <div class="card">
+    <h3>Total Omzet</h3>
+    <div class="big" id="totalOmzet">Rp 0</div>
+  </div>
+
+  <div class="card">
+    <h3>Jumlah Transaksi</h3>
+    <div class="big" id="jumlahTransaksi">0</div>
+  </div>
+
+  <div class="card">
+    <h3>Jumlah Barang</h3>
+    <div class="big" id="jumlahBarang">0</div>
+  </div>
+
+  <div class="card">
+    <h3>Barang Hampir Habis</h3>
+    <div class="big" id="stokRendah">0</div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>⚠ Barang Hampir Habis</h2>
+  <div id="listStokRendah"></div>
+</div>
+
+<div class="card">
+  <h2>Data Barang</h2>
+  
+
+  <table>
+    <thead>
+      <tr>
+        <th>Kode</th>
+        <th>Nama</th>
+        <th>Stok</th>
+        <th>Harga</th>
+      </tr>
+    </thead>
+    <tbody id="tabelBarang"></tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h2>History Transaksi</h2>
+
+  <input type="date" id="tanggalMulai">
+  <input type="date" id="tanggalAkhir">
+
+  <button onclick="filterTransaksiTanggal()">Filter</button>
+  <button onclick="resetFilterTransaksi()">Reset</button>
+ 
+
+  <table>
+    <thead>
+      <tr>
+        <th>No Kwitansi</th>
+        <th>Tanggal</th>
+        <th>Pembeli</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody id="tabelTransaksi"></tbody>
+  </table>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+const firebaseConfig={
+  apiKey:"AIzaSyCQhntg-vYf2dI1nlXy0ZKA1Z7G21aYqtw",
+  authDomain:"toko-abc.firebaseapp.com",
+  projectId:"toko-abc",
+  storageBucket:"toko-abc.firebasestorage.app",
+  messagingSenderId:"295099783757",
+  appId:"1:295099783757:web:b258220764572fadcc1a04"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db=firebase.firestore();
+
+let dataBarang=[];
+let dataTransaksi=[];
+let transaksiTampil=[];
+
+function formatRupiah(a){
+  return "Rp " + Number(a||0).toLocaleString("id-ID");
+}
+
+function hariIni(){
+  return new Date().toLocaleDateString("id-ID");
+}
+
+function cocokHariIni(t){
+  if(!t)return false;
+  if(String(t).includes("T")){
+    return new Date(t).toLocaleDateString("id-ID")===hariIni();
+  }
+  return String(t).startsWith(hariIni());
+}
+
+function tampilkanTransaksi(data){
+  let total=0;
+  let hari=0;
+
+  tabelTransaksi.innerHTML="";
+
+  data.forEach(t=>{
+    total += Number(t.total || 0);
+
+    if(cocokHariIni(t.tanggalISO || t.tanggal)){
+      hari += Number(t.total || 0);
+    }
+
+    tabelTransaksi.innerHTML += `
+      <tr>
+        <td>${t.nomor}</td>
+        <td>${t.tanggal}</td>
+        <td>${t.pembeli}</td>
+        <td>${formatRupiah(t.total)}</td>
+      </tr>
+    `;
+  });
+
+  totalOmzet.innerText = formatRupiah(total);
+  omzetHariIni.innerText = formatRupiah(hari);
+  jumlahTransaksi.innerText = data.length;
+
+  transaksiTampil = data;
+}
+
+function filterTransaksiTanggal(){
+  let mulai = document.getElementById("tanggalMulai").value;
+  let akhir = document.getElementById("tanggalAkhir").value;
+
+  if(!mulai || !akhir){
+    alert("Tanggal mulai dan tanggal akhir harus diisi");
+    return;
+  }
+
+  let awal = new Date(mulai);
+  let batas = new Date(akhir);
+  batas.setHours(23,59,59,999);
+
+  let hasil = dataTransaksi.filter(t=>{
+    let tanggal = new Date(t.tanggalISO || t.tanggal);
+    return tanggal >= awal && tanggal <= batas;
+  });
+
+  tampilkanTransaksi(hasil);
+}
+
+function resetFilterTransaksi(){
+  document.getElementById("tanggalMulai").value="";
+  document.getElementById("tanggalAkhir").value="";
+  tampilkanTransaksi(dataTransaksi);
+}
+
+db.collection("barang").onSnapshot(snap=>{
+  let tabel=tabelBarang;
+  let list=listStokRendah;
+
+  dataBarang=[];
+  tabel.innerHTML="";
+  list.innerHTML="";
+
+  let rendah=0;
+
+  snap.forEach(doc=>{
+    let b=doc.data();
+    dataBarang.push(b);
+
+    if(Number(b.stok)<=5){
+      rendah++;
+      list.innerHTML += `
+        <div class="warning">
+          ⚠ ${b.nama} tinggal <b>${b.stok}</b>
+        </div>
+      `;
+    }
+
+    tabel.innerHTML += `
+      <tr>
+        <td>${b.kode}</td>
+        <td>${b.nama}</td>
+        <td>${b.stok}</td>
+        <td>${formatRupiah(b.harga)}</td>
+      </tr>
+    `;
+  });
+
+  if(rendah===0){
+    list.innerHTML="<p>Aman, tidak ada barang hampir habis.</p>";
+  }
+
+  jumlahBarang.innerText=dataBarang.length;
+  stokRendah.innerText=rendah;
+});
+
+db.collection("transaksi").onSnapshot(snap=>{
+  dataTransaksi=[];
+
+  snap.forEach(doc=>{
+    let t=doc.data();
+    dataTransaksi.push(t);
+  });
+
+  tampilkanTransaksi(dataTransaksi);
+});
+
+
+</script>
+
+</body>
+</html>
