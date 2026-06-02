@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Aplikasi Toko ABC</title>
+
 <style>
 *{box-sizing:border-box}
+
 body{
   font-family:Arial, sans-serif;
   margin:0;
@@ -12,21 +14,13 @@ body{
   min-height:100vh;
   color:#172033;
   position:relative;
-
   background:
     radial-gradient(circle at 18% 20%, rgba(255,255,255,.22) 0 2px, transparent 3px),
     radial-gradient(circle at 80% 30%, rgba(255,255,255,.16) 0 2px, transparent 3px),
     linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px),
     linear-gradient(0deg, rgba(255,255,255,.06) 1px, transparent 1px),
     linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #2563eb 100%);
-
-  background-size:
-    220px 220px,
-    260px 260px,
-    46px 46px,
-    46px 46px,
-    cover;
-
+  background-size:220px 220px,260px 260px,46px 46px,46px 46px,cover;
   background-attachment:fixed;
 }
 
@@ -40,8 +34,9 @@ body::before{
   pointer-events:none;
   z-index:-1;
 }
+
 h1,h2,h3,p{margin-top:0}
-h1{letter-spacing:.5px}
+
 .box,.card{
   background:rgba(255,255,255,.94);
   padding:18px;
@@ -51,21 +46,25 @@ h1{letter-spacing:.5px}
   border:1px solid rgba(255,255,255,.65);
   backdrop-filter:blur(10px);
 }
+
 button,input{
   padding:12px 14px;
   margin:6px;
   font-size:15px;
 }
+
 input{
   border:1px solid #d1d5db;
   border-radius:12px;
   outline:none;
   background:white;
 }
+
 input:focus{
   border-color:#2563eb;
   box-shadow:0 0 0 3px rgba(37,99,235,.15);
 }
+
 button{
   cursor:pointer;
   border:0;
@@ -75,7 +74,12 @@ button{
   font-weight:bold;
   box-shadow:0 8px 18px rgba(37,99,235,.22);
 }
-button:hover{transform:translateY(-1px);opacity:.94}
+
+button:hover{
+  transform:translateY(-1px);
+  opacity:.94;
+}
+
 table{
   width:100%;
   border-collapse:collapse;
@@ -84,15 +88,18 @@ table{
   overflow:hidden;
   border-radius:14px;
 }
+
 th,td{
   border:1px solid #e5e7eb;
   padding:10px;
   text-align:left;
 }
+
 th{
   background:#111827;
   color:white;
 }
+
 .menu{
   text-align:center;
   max-width:560px;
@@ -104,11 +111,12 @@ th{
   border:1px solid rgba(255,255,255,.7);
   backdrop-filter:blur(12px);
 }
+
 .logo-toko{
-  width:60px;
-  height:60px;
+  width:70px;
+  height:70px;
   margin:0 auto 16px;
-  border-radius:16px;
+  border-radius:18px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -121,32 +129,70 @@ th{
   width:100%;
   height:100%;
   object-fit:cover;
-
 }
-.menu h1{font-size:36px;margin-bottom:8px;color:#111827}
-.menu h2{font-size:17px;font-weight:normal;color:#4b5563;margin-bottom:24px}
-.menu button{font-size:17px;padding:15px 28px;min-width:180px}
+
+.menu h1{
+  font-size:36px;
+  margin-bottom:8px;
+  color:#111827;
+}
+
+.menu h2{
+  font-size:17px;
+  font-weight:normal;
+  color:#4b5563;
+  margin-bottom:24px;
+}
+
 .hidden{display:none}
-.total{font-size:24px;font-weight:bold;color:#111827}
-.status{font-weight:bold;color:#059669}
-.danger{background:linear-gradient(135deg,#7f1d1d,#dc2626)!important}
-.warning{background:linear-gradient(135deg,#92400e,#f97316)!important}
+
+.total{
+  font-size:24px;
+  font-weight:bold;
+  color:#111827;
+}
+
+.status{
+  font-weight:bold;
+  color:#059669;
+}
+
+.danger{
+  background:linear-gradient(135deg,#7f1d1d,#dc2626)!important;
+}
+
+.warning{
+  background:linear-gradient(135deg,#92400e,#f97316)!important;
+}
+
 #kasir,#admin{
   max-width:1200px;
   margin:0 auto;
 }
+
 #kasir>h1,#admin>h1{
   color:white;
   text-shadow:0 2px 10px rgba(0,0,0,.35);
   margin:16px 6px 20px;
 }
-.top-back{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35)}
+
+.top-back{
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.35);
+}
+
+.scan-box{
+  border:2px dashed #2563eb;
+  background:#eff6ff;
+}
+
 @media(max-width:700px){
   body{padding:14px;background-attachment:scroll}
   .menu{margin-top:28px;padding:24px}
   .menu button,input,button{width:100%;margin:6px 0}
   table{font-size:13px;display:block;overflow-x:auto;white-space:nowrap}
 }
+
 @media print{
   body *{visibility:hidden}
   #kwitansi,#kwitansi *{visibility:visible}
@@ -155,82 +201,527 @@ th{
 }
 </style>
 </head>
+
 <body>
+
 <div id="home" class="menu">
-  <div class="logo-toko"><img src="logotoko.png" alt="Logo Toko">
+  <div class="logo-toko">
+    <img src="logotoko.png" alt="Logo Toko">
   </div>
   <h1>TOKO ABC</h1>
   <h2>Jl. Medang Larang No.234 Tasikmalaya</h2>
-  <button onclick="bukaKasir()">Masuk Kasir</button>
-  <button onclick="loginAdmin()">Masuk Admin</button>
+  <button onclick="bukaKasir()">Kasir</button>
+  <button onclick="loginAdmin()">Admin</button>
 </div>
-<div id="kasir" class="hidden"><button class="top-back" onclick="kembali()">← Kembali</button><h1>Kasir Toko ABC</h1><div class="box"><input id="pembeli" placeholder="Nama pembeli"><input id="cariBarang" list="listBarang" placeholder="Ketik nama barang"><datalist id="listBarang"></datalist><input id="jumlahBeli" type="number" placeholder="Jumlah"><button onclick="tambahKeranjang()">Tambah</button></div><div class="box"><h3>Keranjang</h3><table><thead><tr><th>Barang</th><th>Jumlah</th><th>Harga</th><th>Subtotal</th><th>Aksi</th></tr></thead><tbody id="tabelKeranjang"></tbody></table><p class="total">Total: <span id="totalBelanja">Rp 0</span></p><button onclick="buatKwitansi()">Buat Kwitansi</button></div><div class="box" id="kwitansi"></div></div>
-<div id="admin" class="hidden"><button class="top-back" onclick="kembali()">← Kembali</button><h1>Admin Toko ABC</h1><div class="box"><h3>Tambah Barang</h3><input id="nama" placeholder="Nama barang"><input id="stok" type="number" placeholder="Stok awal"><input id="harga" type="number" placeholder="Harga jual"><button onclick="tambahBarang()">Simpan</button><button onclick="sinkronBarangKeFirebase()">Sinkronkan Barang ke Firebase</button><button onclick="ambilBarangDariFirebase()">Ambil Barang dari Firebase</button><p>Status Barang Firebase: <span id="statusBarangFirebase" class="status">belum sinkron</span></p></div><div class="box"><h3>Edit Barang</h3><input id="editKode" type="number" placeholder="Nomor barang"><input id="editNama" placeholder="Nama baru"><input id="editStok" type="number" placeholder="Stok baru"><input id="editHarga" type="number" placeholder="Harga baru"><button onclick="ambilDataEdit()">Ambil Data</button><button onclick="simpanEditBarang()">Simpan Edit</button></div><div class="box"><h3>Barang Masuk / Keluar</h3><input id="kode" type="number" placeholder="Nomor barang"><input id="jumlahStok" type="number" placeholder="Jumlah"><button onclick="barangMasuk()">Barang Masuk</button><button onclick="barangKeluar()">Barang Keluar</button></div><div class="box"><h3>Barang Hampir Habis</h3><div id="barangHampirHabis"></div></div><div class="box"><h3>Data Barang</h3><button onclick="exportBarangExcel()">Export Barang ke Excel</button><table><thead><tr><th>No</th><th>Nama</th><th>Stok</th><th>Harga</th><th>Aksi</th></tr></thead><tbody id="tabelBarang"></tbody></table></div><div class="box"><h3>History Transaksi Lokal</h3><button onclick="exportHistoryExcel()">Export History ke Excel</button><table><thead><tr><th>No Kwitansi</th><th>Tanggal</th><th>Pembeli</th><th>Total</th><th>Status Firebase</th></tr></thead><tbody id="tabelHistory"></tbody></table></div></div>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<div id="kasir" class="hidden">
+  <button class="top-back" onclick="kembali()">← Kembali</button>
+  <h1>Kasir Toko ABC</h1>
+
+  <div class="box scan-box">
+    <h3>Scan Barcode</h3>
+    <input id="scanBarcode" placeholder="Scan / ketik barcode lalu Enter">
+    <p>Ketik barcode manual dulu untuk latihan, contoh: 899001 lalu tekan Enter.</p>
+  </div>
+
+  <div class="box">
+    <input id="pembeli" placeholder="Nama pembeli">
+    <input id="cariBarang" list="listBarang" placeholder="Ketik nama barang">
+    <datalist id="listBarang"></datalist>
+    <input id="jumlahBeli" type="number" placeholder="Jumlah">
+    <button onclick="tambahKeranjang()">Tambah Manual</button>
+  </div>
+
+  <div class="box">
+    <h3>Keranjang</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Barang</th>
+          <th>Jumlah</th>
+          <th>Harga</th>
+          <th>Subtotal</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="tabelKeranjang"></tbody>
+    </table>
+    <p class="total">Total: <span id="totalBelanja">Rp 0</span></p>
+    <button onclick="buatKwitansi()">Buat Kwitansi</button>
+  </div>
+
+  <div class="box" id="kwitansi"></div>
+</div>
+
+<div id="admin" class="hidden">
+  <button class="top-back" onclick="kembali()">← Kembali</button>
+  <h1>Admin Toko ABC</h1>
+
+  <div class="box">
+    <h3>Tambah Barang</h3>
+    <input id="barcode" placeholder="Barcode / Kode Barang">
+    <input id="nama" placeholder="Nama barang">
+    <input id="stok" type="number" placeholder="Stok awal">
+    <input id="harga" type="number" placeholder="Harga jual">
+    <button onclick="tambahBarang()">Simpan</button>
+    <button onclick="sinkronBarangKeFirebase()">Sinkronkan Barang ke Firebase</button>
+    <button onclick="ambilBarangDariFirebase()">Ambil Barang dari Firebase</button>
+    <p>Status Barang Firebase: <span id="statusBarangFirebase" class="status">belum sinkron</span></p>
+  </div>
+
+  <div class="box">
+    <h3>Edit Barang</h3>
+    <input id="editKode" type="number" placeholder="Nomor barang">
+    <input id="editBarcode" placeholder="Barcode baru">
+    <input id="editNama" placeholder="Nama baru">
+    <input id="editStok" type="number" placeholder="Stok baru">
+    <input id="editHarga" type="number" placeholder="Harga baru">
+    <button onclick="ambilDataEdit()">Ambil Data</button>
+    <button onclick="simpanEditBarang()">Simpan Edit</button>
+  </div>
+
+  <div class="box">
+    <h3>Barang Masuk / Keluar</h3>
+    <input id="kode" type="number" placeholder="Nomor barang">
+    <input id="jumlahStok" type="number" placeholder="Jumlah">
+    <button onclick="barangMasuk()">Barang Masuk</button>
+    <button onclick="barangKeluar()">Barang Keluar</button>
+  </div>
+
+  <div class="box">
+    <h3>Barang Hampir Habis</h3>
+    <div id="barangHampirHabis"></div>
+  </div>
+
+  <div class="box">
+    <h3>Data Barang</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Barcode</th>
+          <th>Nama</th>
+          <th>Stok</th>
+          <th>Harga</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="tabelBarang"></tbody>
+    </table>
+  </div>
+
+  <div class="box">
+    <h3>History Transaksi Lokal</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>No Kwitansi</th>
+          <th>Tanggal</th>
+          <th>Pembeli</th>
+          <th>Total</th>
+          <th>Status Firebase</th>
+        </tr>
+      </thead>
+      <tbody id="tabelHistory"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 <script>
-const firebaseConfig={apiKey:"AIzaSyCQhntg-vYf2dI1nlXy0ZKA1Z7G21aYqtw",authDomain:"toko-abc.firebaseapp.com",projectId:"toko-abc",storageBucket:"toko-abc.firebasestorage.app",messagingSenderId:"295099783757",appId:"1:295099783757:web:b258220764572fadcc1a04"};firebase.initializeApp(firebaseConfig);const db=firebase.firestore();
-async function kirimTransaksiKeFirebase(dataTransaksi){try{await db.collection("transaksi").add(dataTransaksi);return true}catch(e){console.log("Gagal kirim transaksi:",e);return false}}
-async function sinkronBarangKeFirebase(){let s=document.getElementById("statusBarangFirebase");if(s)s.innerText="proses kirim...";try{let batch=db.batch();barang.forEach((b,i)=>{let ref=db.collection("barang").doc("BRG-"+i);batch.set(ref,{kode:i,nama:b.nama,stok:b.stok,harga:b.harga,updateTerakhir:new Date().toLocaleString("id-ID")})});await batch.commit();if(s)s.innerText="terkirim";return true}catch(e){console.log("Gagal sinkron barang:",e);if(s)s.innerText="gagal / pending";return false}}
-</script>
-<script>
-let barang=JSON.parse(localStorage.getItem("barang"))||[];let history=JSON.parse(localStorage.getItem("history"))||[];let keranjang=[];function formatRupiah(a){return "Rp "+Number(a||0).toLocaleString("id-ID")}function simpan(){localStorage.setItem("barang",JSON.stringify(barang));localStorage.setItem("history",JSON.stringify(history));tampilBarang();tampilListBarang();tampilHistory();tampilBarangHampirHabis()}function sembunyiSemua(){home.classList.add("hidden");kasir.classList.add("hidden");admin.classList.add("hidden")}function bukaKasir(){sembunyiSemua();kasir.classList.remove("hidden");tampilListBarang()}function loginAdmin(){let p=prompt("Masukkan password admin:");if(p==="admin123"){sembunyiSemua();admin.classList.remove("hidden");tampilBarang();tampilHistory();tampilBarangHampirHabis()}else alert("Password salah")}function kembali(){sembunyiSemua();home.classList.remove("hidden")}
-function tambahBarang(){let nama=document.getElementById("nama").value,stok=parseInt(document.getElementById("stok").value),harga=parseInt(document.getElementById("harga").value);if(nama===""||isNaN(stok)||isNaN(harga)){alert("Data belum lengkap");return}barang.push({nama,stok,harga});document.getElementById("nama").value="";document.getElementById("stok").value="";document.getElementById("harga").value="";simpan();sinkronBarangKeFirebase()}
-function tampilBarang(){let t=document.getElementById("tabelBarang");if(!t)return;t.innerHTML="";barang.forEach((b,i)=>{t.innerHTML+=`<tr><td>${i}</td><td>${b.nama}</td><td>${b.stok}</td><td>${formatRupiah(b.harga)}</td><td><button onclick="isiEditCepat(${i})">Edit</button><button class="danger" onclick="hapusBarang(${i})">Hapus</button></td></tr>`})}function tampilListBarang(){let l=document.getElementById("listBarang");if(!l)return;l.innerHTML="";barang.forEach(b=>l.innerHTML+=`<option value="${b.nama}">`)}function tampilBarangHampirHabis(){let box=document.getElementById("barangHampirHabis");if(!box)return;let rendah=barang.filter(b=>Number(b.stok)<=5);box.innerHTML=rendah.length?"":"<p>Aman, tidak ada barang hampir habis.</p>";rendah.forEach(b=>box.innerHTML+=`<div class="card">⚠ ${b.nama} tinggal <b>${b.stok}</b></div>`)}function hapusBarang(i){if(confirm("Hapus barang ini?")){barang.splice(i,1);simpan();sinkronBarangKeFirebase()}}
-function isiEditCepat(i){editKode.value=i;editNama.value=barang[i].nama;editStok.value=barang[i].stok;editHarga.value=barang[i].harga}function ambilDataEdit(){let i=parseInt(editKode.value);if(!barang[i]){alert("Nomor barang tidak ditemukan");return}isiEditCepat(i)}function simpanEditBarang(){let i=parseInt(editKode.value),nama=editNama.value,stok=parseInt(editStok.value),harga=parseInt(editHarga.value);if(!barang[i]||nama===""||isNaN(stok)||isNaN(harga)){alert("Data edit belum lengkap atau nomor salah");return}barang[i]={nama,stok,harga};simpan();sinkronBarangKeFirebase();alert("Barang berhasil diedit")}
-function barangMasuk(){let k=parseInt(kode.value),j=parseInt(jumlahStok.value);if(!barang[k]||isNaN(j)){alert("Nomor barang atau jumlah salah");return}barang[k].stok+=j;simpan();sinkronBarangKeFirebase()}function barangKeluar(){let k=parseInt(kode.value),j=parseInt(jumlahStok.value);if(!barang[k]||isNaN(j)){alert("Nomor barang atau jumlah salah");return}if(barang[k].stok<j){alert("Stok tidak cukup");return}barang[k].stok-=j;simpan();sinkronBarangKeFirebase()}
-async function ambilBarangDariFirebase(){
-  let status = document.getElementById("statusBarangFirebase");
-  if(status) status.innerText = "mengambil data...";
+const firebaseConfig={
+  apiKey:"AIzaSyCQhntg-vYf2dI1nlXy0ZKA1Z7G21aYqtw",
+  authDomain:"toko-abc.firebaseapp.com",
+  projectId:"toko-abc",
+  storageBucket:"toko-abc.firebasestorage.app",
+  messagingSenderId:"295099783757",
+  appId:"1:295099783757:web:b258220764572fadcc1a04"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db=firebase.firestore();
+
+let barang=JSON.parse(localStorage.getItem("barang"))||[];
+let history=JSON.parse(localStorage.getItem("history"))||[];
+let keranjang=[];
+
+function formatRupiah(a){
+  return "Rp "+Number(a||0).toLocaleString("id-ID");
+}
+
+function simpan(){
+  localStorage.setItem("barang",JSON.stringify(barang));
+  localStorage.setItem("history",JSON.stringify(history));
+  tampilBarang();
+  tampilListBarang();
+  tampilHistory();
+  tampilBarangHampirHabis();
+}
+
+function sembunyiSemua(){
+  home.classList.add("hidden");
+  kasir.classList.add("hidden");
+  admin.classList.add("hidden");
+}
+
+function bukaKasir(){
+  sembunyiSemua();
+  kasir.classList.remove("hidden");
+  tampilListBarang();
+  setTimeout(()=>{
+    let s=document.getElementById("scanBarcode");
+    if(s)s.focus();
+  },300);
+}
+
+function loginAdmin(){
+  let p=prompt("Masukkan password admin:");
+  if(p==="admin123"){
+    sembunyiSemua();
+    admin.classList.remove("hidden");
+    tampilBarang();
+    tampilHistory();
+    tampilBarangHampirHabis();
+  }else{
+    alert("Password salah");
+  }
+}
+
+function kembali(){
+  sembunyiSemua();
+  home.classList.remove("hidden");
+}
+
+function tambahBarang(){
+  let barcode=document.getElementById("barcode").value.trim();
+  let nama=document.getElementById("nama").value.trim();
+  let stok=parseInt(document.getElementById("stok").value);
+  let harga=parseInt(document.getElementById("harga").value);
+
+  if(barcode===""||nama===""||isNaN(stok)||isNaN(harga)){
+    alert("Data belum lengkap");
+    return;
+  }
+
+  let sudahAda=barang.find(b=>String(b.barcode)===String(barcode));
+  if(sudahAda){
+    alert("Barcode sudah dipakai barang lain");
+    return;
+  }
+
+  barang.push({barcode,nama,stok,harga});
+
+  document.getElementById("barcode").value="";
+  document.getElementById("nama").value="";
+  document.getElementById("stok").value="";
+  document.getElementById("harga").value="";
+
+  simpan();
+  sinkronBarangKeFirebase();
+}
+
+function tampilBarang(){
+  let t=document.getElementById("tabelBarang");
+  if(!t)return;
+
+  t.innerHTML="";
+
+  barang.forEach((b,i)=>{
+    t.innerHTML+=`
+      <tr>
+        <td>${i}</td>
+        <td>${b.barcode||"-"}</td>
+        <td>${b.nama}</td>
+        <td>${b.stok}</td>
+        <td>${formatRupiah(b.harga)}</td>
+        <td>
+          <button onclick="isiEditCepat(${i})">Edit</button>
+          <button class="danger" onclick="hapusBarang(${i})">Hapus</button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+function tampilListBarang(){
+  let l=document.getElementById("listBarang");
+  if(!l)return;
+
+  l.innerHTML="";
+  barang.forEach(b=>{
+    l.innerHTML+=`<option value="${b.nama}">`;
+  });
+}
+
+function tampilBarangHampirHabis(){
+  let box=document.getElementById("barangHampirHabis");
+  if(!box)return;
+
+  let rendah=barang.filter(b=>Number(b.stok)<=5);
+  box.innerHTML=rendah.length?"":"<p>Aman, tidak ada barang hampir habis.</p>";
+
+  rendah.forEach(b=>{
+    box.innerHTML+=`<div class="card">⚠ ${b.nama} tinggal <b>${b.stok}</b></div>`;
+  });
+}
+
+function hapusBarang(i){
+  if(confirm("Hapus barang ini?")){
+    barang.splice(i,1);
+    simpan();
+    sinkronBarangKeFirebase();
+  }
+}
+
+function isiEditCepat(i){
+  editKode.value=i;
+  editBarcode.value=barang[i].barcode||"";
+  editNama.value=barang[i].nama;
+  editStok.value=barang[i].stok;
+  editHarga.value=barang[i].harga;
+}
+
+function ambilDataEdit(){
+  let i=parseInt(editKode.value);
+  if(!barang[i]){
+    alert("Nomor barang tidak ditemukan");
+    return;
+  }
+  isiEditCepat(i);
+}
+
+function simpanEditBarang(){
+  let i=parseInt(editKode.value);
+  let barcode=editBarcode.value.trim();
+  let nama=editNama.value.trim();
+  let stok=parseInt(editStok.value);
+  let harga=parseInt(editHarga.value);
+
+  if(!barang[i]||barcode===""||nama===""||isNaN(stok)||isNaN(harga)){
+    alert("Data edit belum lengkap atau nomor salah");
+    return;
+  }
+
+  let barcodeDipakai=barang.findIndex((b,index)=>String(b.barcode)===String(barcode)&&index!==i);
+  if(barcodeDipakai!==-1){
+    alert("Barcode sudah dipakai barang lain");
+    return;
+  }
+
+  barang[i]={barcode,nama,stok,harga};
+  simpan();
+  sinkronBarangKeFirebase();
+  alert("Barang berhasil diedit");
+}
+
+function barangMasuk(){
+  let k=parseInt(kode.value);
+  let j=parseInt(jumlahStok.value);
+
+  if(!barang[k]||isNaN(j)){
+    alert("Nomor barang atau jumlah salah");
+    return;
+  }
+
+  barang[k].stok+=j;
+  simpan();
+  sinkronBarangKeFirebase();
+}
+
+function barangKeluar(){
+  let k=parseInt(kode.value);
+  let j=parseInt(jumlahStok.value);
+
+  if(!barang[k]||isNaN(j)){
+    alert("Nomor barang atau jumlah salah");
+    return;
+  }
+
+  if(barang[k].stok<j){
+    alert("Stok tidak cukup");
+    return;
+  }
+
+  barang[k].stok-=j;
+  simpan();
+  sinkronBarangKeFirebase();
+}
+
+async function sinkronBarangKeFirebase(){
+  let s=document.getElementById("statusBarangFirebase");
+  if(s)s.innerText="proses kirim...";
 
   try{
-    let snapshot = await db.collection("barang").orderBy("kode").get();
-    let barangFirebase = [];
+    let batch=db.batch();
 
-    snapshot.forEach(doc => {
-      let b = doc.data();
-      barangFirebase.push({
-        nama: b.nama,
-        stok: Number(b.stok || 0),
-        harga: Number(b.harga || 0)
+    barang.forEach((b,i)=>{
+      let ref=db.collection("barang").doc("BRG-"+i);
+      batch.set(ref,{
+        kode:i,
+        barcode:b.barcode||"",
+        nama:b.nama,
+        stok:b.stok,
+        harga:b.harga,
+        updateTerakhir:new Date().toLocaleString("id-ID")
       });
     });
 
-    barang = barangFirebase;
-    localStorage.setItem("barang", JSON.stringify(barang));
+    await batch.commit();
+    if(s)s.innerText="terkirim";
+    return true;
+  }catch(e){
+    console.log("Gagal sinkron barang:",e);
+    if(s)s.innerText="gagal / pending";
+    return false;
+  }
+}
+
+async function ambilBarangDariFirebase(){
+  let status=document.getElementById("statusBarangFirebase");
+  if(status)status.innerText="mengambil data...";
+
+  try{
+    let snapshot=await db.collection("barang").orderBy("kode").get();
+    let barangFirebase=[];
+
+    snapshot.forEach(doc=>{
+      let b=doc.data();
+      barangFirebase.push({
+        barcode:b.barcode||"",
+        nama:b.nama,
+        stok:Number(b.stok||0),
+        harga:Number(b.harga||0)
+      });
+    });
+
+    barang=barangFirebase;
+    localStorage.setItem("barang",JSON.stringify(barang));
     simpan();
 
-    if(status) status.innerText = "barang berhasil diambil";
+    if(status)status.innerText="barang berhasil diambil";
     alert("Data barang berhasil diambil dari Firebase");
   }catch(error){
-    console.log("Gagal ambil barang:", error);
-    if(status) status.innerText = "gagal ambil data";
+    console.log("Gagal ambil barang:",error);
+    if(status)status.innerText="gagal ambil data";
     alert("Gagal ambil data barang dari Firebase");
   }
 }
-function tambahKeranjang(){let nama=cariBarang.value,jumlah=parseInt(jumlahBeli.value),i=barang.findIndex(b=>b.nama===nama);if(i===-1||isNaN(jumlah)||jumlah<=0){alert("Pilih barang dan isi jumlah dengan benar");return}if(barang[i].stok<jumlah){alert("Stok tidak cukup");return}let b=barang[i];keranjang.push({kode:i,nama:b.nama,harga:b.harga,jumlah,subtotal:b.harga*jumlah});cariBarang.value="";jumlahBeli.value="";tampilKeranjang()}function tampilKeranjang(){let t=tabelKeranjang,total=0;t.innerHTML="";keranjang.forEach((k,i)=>{total+=k.subtotal;t.innerHTML+=`<tr><td>${k.nama}</td><td>${k.jumlah}</td><td>${formatRupiah(k.harga)}</td><td>${formatRupiah(k.subtotal)}</td><td><button class="danger" onclick="hapusKeranjang(${i})">Hapus</button></td></tr>`});totalBelanja.innerText=formatRupiah(total)}function hapusKeranjang(i){keranjang.splice(i,1);tampilKeranjang()}
+
+function tambahKeranjang(){
+  let nama=cariBarang.value;
+  let jumlah=parseInt(jumlahBeli.value);
+  let i=barang.findIndex(b=>b.nama===nama);
+
+  if(i===-1||isNaN(jumlah)||jumlah<=0){
+    alert("Pilih barang dan isi jumlah dengan benar");
+    return;
+  }
+
+  if(barang[i].stok<jumlah){
+    alert("Stok tidak cukup");
+    return;
+  }
+
+  tambahKeKeranjang(i,jumlah);
+
+  cariBarang.value="";
+  jumlahBeli.value="";
+  tampilKeranjang();
+}
+
+function tambahKeKeranjang(i,jumlah){
+  let item=keranjang.find(k=>k.kode===i);
+
+  if(item){
+    if(barang[i].stok<item.jumlah+jumlah){
+      alert("Stok tidak cukup");
+      return;
+    }
+
+    item.jumlah+=jumlah;
+    item.subtotal=item.jumlah*item.harga;
+  }else{
+    let b=barang[i];
+    keranjang.push({
+      kode:i,
+      nama:b.nama,
+      harga:b.harga,
+      jumlah:jumlah,
+      subtotal:b.harga*jumlah
+    });
+  }
+}
+
+function tampilKeranjang(){
+  let t=tabelKeranjang;
+  let total=0;
+
+  t.innerHTML="";
+
+  keranjang.forEach((k,i)=>{
+    total+=k.subtotal;
+    t.innerHTML+=`
+      <tr>
+        <td>${k.nama}</td>
+        <td>${k.jumlah}</td>
+        <td>${formatRupiah(k.harga)}</td>
+        <td>${formatRupiah(k.subtotal)}</td>
+        <td><button class="danger" onclick="hapusKeranjang(${i})">Hapus</button></td>
+      </tr>
+    `;
+  });
+
+  totalBelanja.innerText=formatRupiah(total);
+}
+
+function hapusKeranjang(i){
+  keranjang.splice(i,1);
+  tampilKeranjang();
+}
+
 function buatKwitansi(){
   let pembeli=document.getElementById("pembeli").value;
-  if(pembeli===""){alert("Nama pembeli harus diisi");return}
-  if(keranjang.length===0){alert("Keranjang kosong");return}
 
-  let nomor="KW-"+Date.now(),
-      tanggal=new Date().toLocaleString("id-ID"),
-      tanggalISO=new Date().toISOString(),
-      total=0,
-      isi="",
-      items=[];
+  if(pembeli===""){
+    alert("Nama pembeli harus diisi");
+    return;
+  }
+
+  if(keranjang.length===0){
+    alert("Keranjang kosong");
+    return;
+  }
+
+  let nomor="KW-"+Date.now();
+  let tanggal=new Date().toLocaleString("id-ID");
+  let tanggalISO=new Date().toISOString();
+  let total=0;
+  let isi="";
+  let items=[];
 
   keranjang.forEach((k,i)=>{
     total+=k.subtotal;
     barang[k.kode].stok-=k.jumlah;
-    items.push({nama:k.nama,jumlah:k.jumlah,harga:k.harga,subtotal:k.subtotal});
-    isi+=`<tr>
-      <td>${i+1}</td>
-      <td>${k.nama}</td>
-      <td>${k.jumlah}</td>
-      <td>${formatRupiah(k.harga)}</td>
-      <td>${formatRupiah(k.subtotal)}</td>
-    </tr>`;
+
+    items.push({
+      barcode:barang[k.kode].barcode||"",
+      nama:k.nama,
+      jumlah:k.jumlah,
+      harga:k.harga,
+      subtotal:k.subtotal
+    });
+
+    isi+=`
+      <tr>
+        <td>${i+1}</td>
+        <td>${k.nama}</td>
+        <td>${k.jumlah}</td>
+        <td>${formatRupiah(k.harga)}</td>
+        <td>${formatRupiah(k.subtotal)}</td>
+      </tr>
+    `;
   });
 
   let dataTransaksi={nomor,tanggal,tanggalISO,pembeli,total,items};
@@ -241,9 +732,7 @@ function buatKwitansi(){
 
   kwitansi.innerHTML=`
     <div style="text-align:center">
-      <img src="logotoko.png" 
-           alt="Logo Toko" 
-           style="width:65px;height:65px;object-fit:contain;margin-bottom:6px;">
+      <img src="logotoko.png" alt="Logo Toko" style="width:65px;height:65px;object-fit:contain;margin-bottom:6px;">
       <h2 style="margin:4px 0;text-align:center">KWITANSI PEMBAYARAN</h2>
       <h3 style="margin:4px 0;text-align:center">TOKO ABC</h3>
       <p style="margin:4px 0;text-align:center">Jl. Medang Larang No.234 Tasikmalaya</p>
@@ -282,11 +771,13 @@ function buatKwitansi(){
 
   kirimTransaksiKeFirebase(dataTransaksi).then(ok=>{
     let h=history.find(x=>x.nomor===nomor);
+
     if(h){
       h.status=ok?"terkirim":"pending";
       localStorage.setItem("history",JSON.stringify(history));
       tampilHistory();
     }
+
     let st=document.getElementById("statusFirebaseKwitansi");
     if(st)st.innerText=ok?"terkirim":"pending";
   });
@@ -296,7 +787,74 @@ function buatKwitansi(){
   tampilKeranjang();
   document.getElementById("pembeli").value="";
 }
-function tampilHistory(){let t=document.getElementById("tabelHistory");if(!t)return;t.innerHTML="";history.forEach(h=>t.innerHTML+=`<tr><td>${h.nomor}</td><td>${h.tanggal}</td><td>${h.pembeli}</td><td>${formatRupiah(h.total)}</td><td>${h.status||"lokal"}</td></tr>`)}function downloadCSV(namaFile,rows){let csv=rows.map(r=>r.map(v=>`"${String(v??"").replaceAll('"','""')}"`).join(",")).join("\n");let blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8;"});let a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=namaFile;a.click()}function exportBarangExcel(){let rows=[["No","Nama","Stok","Harga"]];barang.forEach((b,i)=>rows.push([i,b.nama,b.stok,b.harga]));downloadCSV("data-barang.csv",rows)}function exportHistoryExcel(){let rows=[["No Kwitansi","Tanggal","Pembeli","Total","Status Firebase"]];history.forEach(h=>rows.push([h.nomor,h.tanggal,h.pembeli,h.total,h.status||"lokal"]));downloadCSV("history-transaksi.csv",rows)}simpan();
+
+async function kirimTransaksiKeFirebase(dataTransaksi){
+  try{
+    await db.collection("transaksi").add(dataTransaksi);
+    return true;
+  }catch(e){
+    console.log("Gagal kirim transaksi:",e);
+    return false;
+  }
+}
+
+function tampilHistory(){
+  let t=document.getElementById("tabelHistory");
+  if(!t)return;
+
+  t.innerHTML="";
+
+  history.forEach(h=>{
+    t.innerHTML+=`
+      <tr>
+        <td>${h.nomor}</td>
+        <td>${h.tanggal}</td>
+        <td>${h.pembeli}</td>
+        <td>${formatRupiah(h.total)}</td>
+        <td>${h.status||"lokal"}</td>
+      </tr>
+    `;
+  });
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+  let inputScan=document.getElementById("scanBarcode");
+
+  if(inputScan){
+    inputScan.addEventListener("keydown",function(e){
+      if(e.key==="Enter"){
+        e.preventDefault();
+
+        let kode=inputScan.value.trim();
+        if(kode==="")return;
+
+        let i=barang.findIndex(b=>String(b.barcode)===String(kode));
+
+        if(i===-1){
+          alert("Barang dengan barcode ini tidak ditemukan");
+          inputScan.value="";
+          inputScan.focus();
+          return;
+        }
+
+        if(Number(barang[i].stok)<=0){
+          alert("Stok barang habis");
+          inputScan.value="";
+          inputScan.focus();
+          return;
+        }
+
+        tambahKeKeranjang(i,1);
+        inputScan.value="";
+        tampilKeranjang();
+        inputScan.focus();
+      }
+    });
+  }
+});
+
+simpan();
 </script>
+
 </body>
 </html>
